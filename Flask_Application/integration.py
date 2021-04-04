@@ -2,7 +2,7 @@ import pickle
 import pandas as pd
 import numpy as np
 import sklearn
-filename = r'D:/Projects/Phishing-email-detection/Flask_Application/finalized1_text_model.sav'
+filename = r'D:/Projects/Phishing-email-detection/Text Classification/finalized1_text_model.sav'
 def text_prediction(text):
     loaded_model_text = pickle.load(open(filename, 'rb'))
     data=[['1',text]]
@@ -55,33 +55,36 @@ def sub_domains(l):
     return 1
 	
 def url_prediction(list):
-	df=pd.DataFrame(data=list)
-	df.rename(columns={0:"URL"})
-	seperation_of_protocol = df[0].str.split("://",expand = True) #expand argument in the split method will give you a new column
-	seperation_domain_name = seperation_of_protocol[1].str.split("/",1,expand=True)
-	seperation_domain_name.columns=["domain_name","address"]
-	splitted_data = pd.concat([seperation_of_protocol[0],seperation_domain_name],axis=1)
-	splitted_data.columns = ['protocol','domain_name','address']
-	splitted_data['long_url'] = df[0].apply(long_url) 
-	splitted_data['having_@_symbol'] = df[0].apply(have_at_symbol)
-	splitted_data['redirection_//_symbol'] = seperation_of_protocol[1].apply(redirection)
-	splitted_data['prefix_suffix_seperation'] = seperation_domain_name['domain_name'].apply(prefix_suffix_seperation)
-	splitted_data['sub_domains'] = splitted_data['domain_name'].apply(sub_domains)
-	features = ['long_url', 'having_@_symbol', 'redirection_//_symbol','prefix_suffix_seperation','sub_domains']
-	X=splitted_data[features]
-	filename = 'D:/Projects/Phishing-email-detection/URL Classification/urlphishing.sav'
-	loaded_model = pickle.load(open(filename, 'rb'))
-	ls = loaded_model.predict(X)
-	print(ls)
-	url_pred_prob = loaded_model.predict_proba(X)
-	print(url_pred_prob)
-	tup=np.shape(url_pred_prob)
-	n=tup[1]-1
-	x=url_pred_prob[:,[n]]
-	url_prob=float(max(x))
-	url_pred=findMajority(ls,len(ls))
-	print("Url prediction" +str(url_pred))
-	return url_prob,url_pred
+    df=pd.DataFrame(data=list)
+    df.rename(columns={0:"URL"})
+    print("DataFrame \n",df)
+    seperation_of_protocol = df[0].str.split("://",expand = True) #expand argument in the split method will give you a new column
+    print("seperation_of_protocol \n",seperation_of_protocol)
+    seperation_domain_name = seperation_of_protocol[1].str.split("/",1,expand=True)
+    print("seperation_domain_name \n",seperation_domain_name)
+    seperation_domain_name.columns=["domain_name","address"]
+    splitted_data = pd.concat([seperation_of_protocol[0],seperation_domain_name],axis=1)
+    splitted_data.columns = ['protocol','domain_name','address']
+    splitted_data['long_url'] = df[0].apply(long_url) 
+    splitted_data['having_@_symbol'] = df[0].apply(have_at_symbol)
+    splitted_data['redirection_//_symbol'] = seperation_of_protocol[1].apply(redirection)
+    splitted_data['prefix_suffix_seperation'] = seperation_domain_name['domain_name'].apply(prefix_suffix_seperation)
+    splitted_data['sub_domains'] = splitted_data['domain_name'].apply(sub_domains)
+    features = ['long_url', 'having_@_symbol', 'redirection_//_symbol','prefix_suffix_seperation','sub_domains']
+    X=splitted_data[features]
+    filename = 'D:/Projects/Phishing-email-detection/URL Classification/urlphishing.sav'
+    loaded_model = pickle.load(open(filename, 'rb'))
+    ls = loaded_model.predict(X)
+    print(ls)
+    url_pred_prob = loaded_model.predict_proba(X)
+    print(url_pred_prob)
+    tup=np.shape(url_pred_prob)
+    n=tup[1]-1
+    x=url_pred_prob[:,[n]]
+    url_prob=float(max(x))
+    url_pred=findMajority(ls,len(ls))
+    print("Url prediction" +str(url_pred))
+    return (url_prob,url_pred)
 
 def findMajority(arr, n): 
     maxCount = 0; 

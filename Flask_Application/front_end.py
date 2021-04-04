@@ -6,7 +6,7 @@ con = sql.connect("D:/Projects/Phishing-email-detection/Flask_Application/email_
 con.row_factory = sql.Row
 cur = con.cursor()
 cur.execute("select * from EMAIL")
-# cur.execute("DELETE FROM EMAIL WHERE SL_NO=16")
+# cur.execute("DELETE FROM EMAIL WHERE SL_NO=22")
 con.commit()
 
 rows = cur.fetchall(); 
