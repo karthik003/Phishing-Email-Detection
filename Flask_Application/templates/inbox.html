@@ -84,11 +84,11 @@
 									<td class="name"><a href="{{ url_for('read_email',id=row[0]) }}">{{row[1]}}</a></td>
 									<td class="subject"><a href="#">{{row[2]}} </a></td>
 									<td>{% if row[5] == 1 %}
-									    <div><a href="#"><img src="/static/images/red.png" width="25" height="25"</a></div>
+									    <div><a href="#"><img src="../static/red.png" width="25" height="25"</a></div>
 										
           
 										{% else %}
-									    <div><a href="#"><img src="static/images/green.png" width="22" height="22"></a></div>{% endif %}</td>
+									    <div><a href="#"><img src="../static/green.png" width="22" height="22"></a></div>{% endif %}</td>
 									<td class="time">{{row[3]}}</td>
 								</tr>
 								

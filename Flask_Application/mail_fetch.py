@@ -6,8 +6,8 @@ import sqlite3
 import pandas 
 from integration import *
 
-user = 'vjk2018@gmail.com'
-password = 'bmmywirgquodlejb'
+user = 'debmalya.banerjee2018@vitstudent.ac.in'
+password = 'xpnwyrjmhbgcsbmb'
 imap_url = 'imap.gmail.com'
 con = imaplib.IMAP4_SSL(imap_url)  
   
