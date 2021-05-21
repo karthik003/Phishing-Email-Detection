@@ -14,14 +14,14 @@ rows = cur.fetchall();
 def inbox():
     return render_template("inbox.html",rows = rows)
 
-@app.route('/read_email/<int:id>')
+@app.route('/read_email/<int:id>') 
 def read_email(id):
     con = sql.connect("D:/Projects/Phishing-email-detection/Flask_Application/email_db.db")
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute("select * from EMAIL where SL_NO = ?",(id,))
     rows = cur.fetchone()
-    # print("id=",rows[0])
+    print("id=",rows[0])
     # print("sender=",rows[1])
     # print("subject=",rows[2])
     # print("date=",rows[3])
